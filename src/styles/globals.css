@@ -25,3 +25,16 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+
+.square {
+  border: 2px solid #ccc;
+  background-color: #fff;
+  width: 8rem;
+  height: 8rem;
+  font-size: 6rem;
+  font-weight: bold;
+  position: relative;
+  line-height: 0;
+  vertical-align: top; /* Agregado para evitar que se mueva */
+}
