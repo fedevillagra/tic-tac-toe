@@ -3,13 +3,23 @@
   background-color: #fff;
   width: 8rem;
   height: 8rem;
-  font-size: 6rem;
-  font-weight: bold;
+  font-size: 0;
+  /* para que no se vean las letras X O
+  font-size: 4rem;
+  font-weight: lighter;
+  */
   position: relative;
-  line-height: 0;
   vertical-align: top; /* Agregado para evitar que se mueva */
 }
-  
+
+@media all and (max-width:599px){ /*para que el tablero entre en una pantalla de celular*/
+  .square {
+    width: 6rem;
+    height: 6rem;
+  }
+}
+
+  /*a continuacion estan dibujadas las letras X O para que se vean mejor*/
   .x {
     position: absolute;
     top: 0;
@@ -51,7 +61,6 @@
     border: 2px solid #000;
     border-radius: 50%;
     background-color: #fff;
-    font-size:medium;
     transform: translate(50%, 50%);
   }
   
