@@ -1,0 +1,70 @@
+.game {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    gap: 10px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .square {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 48px;
+    font-weight: bold;
+    color: #555;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    border-radius: 5px;
+  }
+  
+  .square:hover {
+    background-color: #eee;
+  }
+  
+  .player-info {
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .piece {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    background-color: #555;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .piece:hover {
+    background-color: #333;
+  }
+  
+  .piece.selected {
+    background-color: #f00;
+  }
+  
+  .piece.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  

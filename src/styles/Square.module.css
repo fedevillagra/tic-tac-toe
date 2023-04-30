@@ -9,13 +9,23 @@
   font-weight: lighter;
   */
   position: relative;
-  vertical-align: top; /* Agregado para evitar que se mueva */
+  vertical-align: top; /* Agregado para evitar que se muevan los cuadrados al clickearlos */
+}
+.transparent {
+  background-color: transparent !important;
 }
 
 @media all and (max-width:599px){ /*para que el tablero entre en una pantalla de celular*/
   .square {
     width: 6rem;
     height: 6rem;
+  }
+}
+
+@media all and (max-width:299px){ /*para que el tablero entre en una pantalla de celular*/
+  .square {
+    width: 3rem;
+    height: 3rem;
   }
 }
 
@@ -63,4 +73,3 @@
     background-color: #fff;
     transform: translate(50%, 50%);
   }
-  
