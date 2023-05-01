@@ -1,70 +1,57 @@
 import styles from '../styles/Square.module.css';
 
+const MOVES_MATRIX = [ //movimientos posibles
+  [1, 3, 4],    // 0
+  [0, 2, 4],    // 1
+  [1, 4, 5],    // 2
+  [0, 4, 6],    // 3
+  [0, 1, 2, 3, 5, 6, 7, 8],    // 4
+  [2, 4, 8],    // 5
+  [3, 4, 7],    // 6
+  [6, 4, 8],    // 7
+  [5, 7, 4],    // 8
+];
+
 const canMoveToSquare = (fromIndex, toIndex) => {
-    fromIndex=parseInt(fromIndex)
-    // Obtener los índices de los cuadrados vecinos
-    const neighbors = [
-      fromIndex - 3, // arriba
-      fromIndex + 3, // abajo
-      fromIndex - 1, // izquierda
-      fromIndex + 1  // derecha
-    ];
-
-    // Si es la pieza central, puede moverse a cualquier cuadrado vecino
-    if (fromIndex === 4) {
-      return true;
-    }
-
-    // Si es una esquina, solo puede moverse a los cuadrados vecinos y al centro
-    if (fromIndex % 2 === 0 && fromIndex !== 4) {
-      neighbors.push(4); // añadir el centro
-      return neighbors.includes(toIndex);
-    }
-
-  // Si es una pieza que no está en una esquina, solo puede moverse a los cuadrados vecinos adyacentes a su fila o columna
-  if (fromIndex % 2 !== 0) {
-    return neighbors.includes(toIndex);
-  }
-
-    return false;
+    const possibleMoves = MOVES_MATRIX[fromIndex];
+    return possibleMoves.includes(toIndex);
 };
 
 const Square = (props) => {
-  const dragging = () => { return (props.pieces==0 && props.value!=null) } //solo se pueden mover piezas cuando estas se acaban
+  //si no hay un ganador, las piezas se acaban y el cuadrado esta ocupado con una pieza, este se puede arrastrar
+  const isDraggable = () => { return (!props.winner && props.pieces==0 && props.value!=null) }
   const dragstart = (e) => { 
       e.dataTransfer.setData('text/plain', props.value)
-      e.target.id = props.i
       e.dataTransfer.setData('number', props.i)
   }
   const drop = (e) => {
     e.preventDefault();
-    //cuadrado nuevo al que se dropeo
-    const newSquare = e.currentTarget; 
-    if (props.winner || newSquare.children.length) { //si ya gano o esta ocupado, no ejecuta nada
+
+    const value = e.dataTransfer.getData('text/plain');
+    const fromIndex = parseInt(e.dataTransfer.getData('number'), 10);
+    const toIndex = props.i;
+    //si no es un movimiento valido o hay ganador o el cuadrado esta ocupado o no es el turno del jugador, no hace nada.
+    console.log(value);
+    console.log(value==='X');
+    console.log(props.xIsNext);
+    if (!canMoveToSquare(fromIndex, toIndex) || props.winner || props.squares[toIndex] || (value==='X') !== props.xIsNext) {
       return;
     }
-      // value e i son del cuadrado viejo, mientras que ahora props.value y props.i son del cuadrado nuevo
-      const value = e.dataTransfer.getData('text');
-      const i = e.dataTransfer.getData('number');
-
-      if (canMoveToSquare(i, props.i) && (value === 'X') === props.xIsNext) {// Si la pieza puede ser movida al cuadrado nuevo y es el turno del jugador actual
-        //actualizar el ultimo movimiento drop al tablero
         const newSquares = [...props.squares];
-        newSquares.splice(i, 1, props.value)
-        newSquares[props.i] = value;
+        newSquares[toIndex] = value;
+        newSquares[fromIndex] = null;
         props.setSquares(newSquares);
         props.setXIsNext(!props.xIsNext); //cambia el turno
-    }
   }
 
   return (
     <button 
     className={styles.square} 
     onClick={props.onClick} 
-    draggable={!props.winner && dragging()}
-    onDragStart={dragstart} //pasa data de la pieza levantada hacia donde se quiere colocar
-    onDragOver={(e) => e.preventDefault()}
-    onDrop={drop} //mover pieza
+    draggable={isDraggable()}
+    onDragStart={dragstart} //pasa data de la pieza levantada
+    onDragOver={(e) =>e.preventDefault()}
+    onDrop={drop} //mover la pieza
     >
       {props.value === 'X' && <div className={styles.x}>X</div>}
       {props.value === 'O' && <div className={styles.o}>O</div>}

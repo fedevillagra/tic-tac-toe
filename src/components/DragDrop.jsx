@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import Square from './Square';
 
-
 const Board = () => {
   const [squares, setSquares] = useState(Array(9).fill(null)); //tablero
   const [xIsNext, setXIsNext] = useState(true); //turnos
   const [winner, setWinner] = useState(null); //ganador
   const [pieces,setPieces] = useState (6) //piezas
-  useEffect(() => calculateWinner(squares), undefined);
+  useEffect(() => calculateWinner(squares), undefined); //revisa si algun jugador gano
 
   const handleClick = (i) => {
     if (winner || squares[i] || pieces === 0 ) { //si ya gano o ya esta ocupado, no ejecuta nada

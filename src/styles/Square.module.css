@@ -11,9 +11,6 @@
   position: relative;
   vertical-align: top; /* Agregado para evitar que se muevan los cuadrados al clickearlos */
 }
-.transparent {
-  background-color: transparent !important;
-}
 
 @media all and (max-width:599px){ /*para que el tablero entre en una pantalla de celular*/
   .square {
@@ -70,6 +67,5 @@
     align-items: center;
     border: 2px solid #000;
     border-radius: 50%;
-    background-color: #fff;
     transform: translate(50%, 50%);
   }
