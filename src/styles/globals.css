@@ -25,7 +25,3 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
-
-.dragabble{
-  touch-action: none !important;
-}
