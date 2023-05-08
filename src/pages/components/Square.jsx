@@ -52,6 +52,7 @@ const Square = (props) => {
     onDragStart={dragstart} //pasa data de la pieza levantada
     onDragOver={(e) =>e.preventDefault()}
     onDrop={drop} //mover la pieza
+    onTouchEnd={drop} //mover la pieza en el celu
     >
       {props.value === 'X' && <div className={styles.x}>X</div>}
       {props.value === 'O' && <div className={styles.o}>O</div>}
