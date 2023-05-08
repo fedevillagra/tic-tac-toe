@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Square from './Square';
 
@@ -68,30 +69,44 @@ const Board = () => {
     : `Next player: ${xIsNext ? 'X' : 'O'}`;
 
   return (
-    <div className="board-container">
-      <div className="status mb-8">{status}</div>
-      <div className="board">
-        <div className="board-row">
-          {renderSquare(0)}
-          {renderSquare(1)}
-          {renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {renderSquare(3)}
-          {renderSquare(4)}
-          {renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {renderSquare(6)}
-          {renderSquare(7)}
-          {renderSquare(8)}
+    <div className="game-container flex flex-col items-center justify-center h-screen">
+    <h1 className="text-3xl font-bold mb-8">Tic Tac Toe</h1>
+    <div className="game">
+      <div className="game-board">
+        <div className="board-container">
+          <div className="status mb-5">{status}</div>
+          <div className="board">
+            <div className="board-row">
+              {renderSquare(0)}
+              {renderSquare(1)}
+              {renderSquare(2)}
+            </div>
+            <div className="board-row">
+              {renderSquare(3)}
+              {renderSquare(4)}
+              {renderSquare(5)}
+            </div>
+            <div className="board-row">
+              {renderSquare(6)}
+              {renderSquare(7)}
+              {renderSquare(8)}
+            </div>
+          </div>
+          { winner && (
+            <button className="restart-btn float-left mt-5" onClick={handleRestart}>
+              Restart
+            </button>
+          )}
+          <div className="float-right mt-5">
+            <Link href="../TicTacToe" className="restart-btn">Back to menu</Link>
+          </div>
         </div>
       </div>
-      { winner && (
-        <button className="restart-btn" onClick={handleRestart}>
-          Restart
-        </button>
-      )}
+    </div>
+      <div className="game-info">
+        <div>{/* status */}</div>
+        <ol>{/* TODO */}</ol>
+     </div>
     </div>
   );
 };

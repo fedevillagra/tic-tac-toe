@@ -1,4 +1,4 @@
-import styles from '../styles/Square.module.css';
+import styles from '../../styles/Square.module.css';
 
 const MOVES_MATRIX = [ //movimientos posibles
   [1, 3, 4],    // 0
