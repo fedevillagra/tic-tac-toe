@@ -29,9 +29,6 @@ const Square = (props) => {
     const fromIndex = parseInt(e.dataTransfer.getData('number'), 10);
     const toIndex = props.i;
     //si no es un movimiento valido o hay ganador o el cuadrado esta ocupado o no es el turno del jugador, no hace nada.
-    console.log(value);
-    console.log(value==='X');
-    console.log(props.xIsNext);
     if (!canMoveToSquare(fromIndex, toIndex) || props.winner || props.squares[toIndex] || (value==='X') !== props.xIsNext) {
       return;
     }

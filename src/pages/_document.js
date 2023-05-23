@@ -5,6 +5,7 @@ export default function Document() {
     <Html lang="en">
       <Head>
       <link rel="shortcut icon" href="icon-32.png" />
+      <title>Tic Tae Toc - FV</title>
       </Head>
       <body>
         <Main />
