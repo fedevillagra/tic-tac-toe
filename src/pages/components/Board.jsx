@@ -8,34 +8,19 @@ const Board = () => {
   const [xIsNext, setXIsNext] = useState(true); //turnos
   const [winner, setWinner] = useState(null); //ganador
   const [pieces, setPieces] = useState(6); //piezas
-  const [isDragging, setIsDragging] = useState(false); //arrastrando pieza
-
-  useEffect(() => {
-    const handleTouchMove = (e) => {
-      if (isDragging) {
-        e.preventDefault();
-      }
-    };
-
-    document.addEventListener('touchmove', handleTouchMove, { passive: false });
-
-    return () => {
-      document.removeEventListener('touchmove', handleTouchMove);
-    };
-  }, [isDragging]);
-
-  useEffect(() => calculateWinner(squares), [squares]); //revisa si algún jugador ganó
 
   const router = useRouter();
   const dato = router.query.dato;
 
+  useEffect(() => calculateWinner(squares), [squares]); //revisa si algun jugador gano
+
   const handleClick = (i) => {
-    if (winner || squares[i] || pieces === 0) { return; } //si ya ganó o ya está ocupado, no ejecuta nada
-    if (dato == 'No-middle' && i == 4 && pieces == 6) { return; } //quien empieza no puede poner en medio en "No-middle mode"
+    if (winner || squares[i] || pieces === 0) { return; } //si ya gano o ya esta ocupado, no ejecuta nada
+    //if (dato === 'No-middle' && i === 4 && pieces === 6) { return; } //quien empieza no puede poner en medio en "No-middle mode"
     const newSquares = [...squares]; //copia el tablero a uno aux
     newSquares[i] = xIsNext ? 'X' : 'O'; //agrega la jugada nueva al cuadrado seleccionado
     setSquares(newSquares); //actualiza el estado del tablero con la nueva jugada
-    (dato == 'Moving' || dato == 'No-middle') && setPieces((p) => p - 1); //resta una pieza en "Moving mode"
+    (dato === 'Moving' || dato === 'Cross-movements' /*|| dato === 'No-middle'*/) && setPieces((p) => p - 1); //resta una pieza en "Moving mode"
     setXIsNext(!xIsNext); //cambia el turno del jugador
   };
 
@@ -51,15 +36,15 @@ const Board = () => {
       <Square
         i={i}
         value={squares[i]} //enlaza cada cuadrado a un lugar del array tablero
-        onClick={() => handleClick(i)} //cambia el value de la línea anterior
-        disabled={winner || squares[i]} //si ya ganó o ya está ocupado el cuadrado se deshabilita
+        onClick={() => handleClick(i)} //cambia el value de la linea anterior
+        disabled={winner || squares[i]} //si ya gano o ya esta ocupado el cuadrado se deshabilita
         pieces={pieces}
         setXIsNext={setXIsNext}
         xIsNext={xIsNext}
         setSquares={setSquares}
         squares={squares}
         winner={winner}
-        setIsDragging={setIsDragging} //nuevo prop para gestionar el arrastre
+        dato={dato} // pasa el parámetro dato al componente Square
       />
     );
   };
@@ -78,13 +63,13 @@ const Board = () => {
   
     for (let i = 0; i < lines.length; i++) {
       const [a, b, c] = lines[i]; //crea una variable aux con cada posible forma de ganar (posiciones)
-      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) { //evalúa si las posiciones están ocupadas por el mismo jugador 
+      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) { //evalua si las posiciones estan ocupadas por el mismo jugador 
         setWinner(squares[a]);
       }
     }
   };
 
-  const status = winner //crea una variable dinámica que muestra el ganador o el turno
+  const status = winner //crea una variable dinamica que muestra el ganador o el turno
     ? `Winner: ${winner}`
     : squares.every((square) => square !== null)
     ? 'Draw'
@@ -128,7 +113,7 @@ const Board = () => {
       <div className="game-info">
         <div>{/* status */}</div>
         <ol>{/* TODO */}</ol>
-      </div>
+     </div>
     </div>
   );
 };

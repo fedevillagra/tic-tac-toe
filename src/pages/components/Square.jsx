@@ -13,28 +13,43 @@ const MOVES_MATRIX = [ //movimientos posibles
   [5, 7, 4],    // 8
 ];
 
-const canMoveToSquare = (fromIndex, toIndex) => {
-    const possibleMoves = MOVES_MATRIX[fromIndex];
-    return possibleMoves.includes(toIndex);
-};
+const CROSS_MOVES_MATRIX = [ //movimientos posibles
+  [1, 3, 4],    // 0
+  [0, 2, 3, 4, 5],    // 1
+  [1, 4, 5],    // 2
+  [0, 1, 4, 6, 7],    // 3
+  [0, 1, 2, 3, 5, 6, 7, 8],    // 4
+  [1, 2, 4, 7, 8],    // 5
+  [3, 4, 7],    // 6
+  [3, 4, 5, 6, 8],    // 7
+  [5, 7, 4],    // 8
+];
 
 const Square = (props) => {
   const [touching, setTouching] = useState(false);
   const [touchData, setTouchData] = useState(null);
 
-  const isDraggable = () => { return (!props.winner && props.pieces === 0 && props.value != null) };
+  const isDraggable = () => {
+    return (!props.winner && props.pieces === 0 && props.value != null);
+  };
 
-  const dragstart = (e) => { 
-    e.dataTransfer.setData('text/plain', props.value);
-    e.dataTransfer.setData('number', props.i);
+  const dragstart = (e) => {
+    if (props.pieces === 0) {
+      e.dataTransfer.setData('text/plain', props.value);
+      e.dataTransfer.setData('number', props.i);
+    }
   };
 
   const drop = (e) => {
+    if (props.pieces !== 0) return;
+
     const value = e.dataTransfer.getData('text/plain');
     const fromIndex = parseInt(e.dataTransfer.getData('number'), 10);
     const toIndex = props.i;
 
-    if (!canMoveToSquare(fromIndex, toIndex) || props.winner || props.squares[toIndex] || (value === 'X') !== props.xIsNext) {
+    const movesMatrix = props.dato === 'Cross-movements' ? CROSS_MOVES_MATRIX : MOVES_MATRIX;
+
+    if (!canMoveToSquare(fromIndex, toIndex, movesMatrix) || props.winner || props.squares[toIndex] || (value === 'X') !== props.xIsNext) {
       return;
     }
 
@@ -46,9 +61,10 @@ const Square = (props) => {
   };
 
   const handleTouchStart = (e) => {
-    setTouching(true);
-    setTouchData({ value: props.value, fromIndex: props.i });
-    props.setIsDragging(true); // Inicia el estado de arrastre global
+    if (props.pieces === 0 && props.value != null) {
+      setTouching(true);
+      setTouchData({ value: props.value, fromIndex: props.i });
+    }
   };
 
   const handleTouchMove = (e) => {
@@ -56,8 +72,9 @@ const Square = (props) => {
   };
 
   const handleTouchEnd = (e) => {
+    if (!touching || props.pieces !== 0) return;
+
     setTouching(false);
-    props.setIsDragging(false); // Finaliza el estado de arrastre global
 
     const touch = e.changedTouches[0];
     const element = document.elementFromPoint(touch.clientX, touch.clientY);
@@ -65,7 +82,9 @@ const Square = (props) => {
     if (element && element.dataset.index) {
       const toIndex = parseInt(element.dataset.index, 10);
 
-      if (!canMoveToSquare(touchData.fromIndex, toIndex) || props.winner || props.squares[toIndex] || (touchData.value === 'X') !== props.xIsNext) {
+      const movesMatrix = props.dato === 'Cross-movements' ? CROSS_MOVES_MATRIX : MOVES_MATRIX;
+
+      if (!canMoveToSquare(touchData.fromIndex, toIndex, movesMatrix) || props.winner || props.squares[toIndex] || (touchData.value === 'X') !== props.xIsNext) {
         return;
       }
 
@@ -75,6 +94,11 @@ const Square = (props) => {
       props.setSquares(newSquares);
       props.setXIsNext(!props.xIsNext);
     }
+  };
+
+  const canMoveToSquare = (fromIndex, toIndex, movesMatrix) => {
+    const possibleMoves = movesMatrix[fromIndex];
+    return possibleMoves.includes(toIndex);
   };
 
   return (

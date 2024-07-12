@@ -1,10 +1,11 @@
 import Link from "next/link"
+import Footer from "./Footer"
 
 const modes = [
   {
     name: "Classic",
     href: 'Classic',
-    imageSrc: 'icon-classic.png',
+    imageSrc: 'icon-classic.gif',
     imageAlt: 'Classic mode image',
     description: 'Just fill the board with the pieces.',
   },
@@ -16,11 +17,11 @@ const modes = [
     description: 'Move your pieces after putting all three of yours.',
   },
   {
-    name: 'No middle',
-    href: 'No-middle',
-    imageSrc: 'icon-no-middle.gif',
-    imageAlt: 'No middle mode image',
-    description: "The first piece can't be put it in the middle.",
+    name: 'Cross movements',
+    href: 'Cross-movements',
+    imageSrc: 'icon-cross-movements.gif',
+    imageAlt: 'Cross movements mode image',
+    description: "Cross movements are allowed.",
   },
 ]
 
@@ -29,11 +30,11 @@ export default function TicTacToe() {
     <div className="relative bg-white">
       {/* Decorative image and overlay */}
       <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
-        <div className="fixed top-0 left-0 w-full h-full object-cover object-center z-0 bg-cover bg-center">
+        <div className="top-0 left-0 w-full h-full object-cover object-center bg-cover bg-center">
           <img
-            src="white-and-silver-hexagon.jpg" //imagen de fondo
+            src="papel-tapiz-fondo-blanco.jpg" //imagen de fondo
             alt="background image"
-            className="h-full w-full object-cover object-center"
+            className="h-full w-full object-cover object-center z-0"
           />
           <div aria-hidden="true" className="absolute inset-0 bg-gray-900 opacity-50"/>
         </div> 
@@ -88,6 +89,7 @@ export default function TicTacToe() {
             </div>
           ))}
         </div>
+        <Footer/>
       </section>
     </div>
   )
