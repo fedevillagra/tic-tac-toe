@@ -1,5 +1,5 @@
 import Link from "next/link"
-import Footer from "./Footer"
+//import Footer from "./Footer"
 
 const modes = [
   {
@@ -89,7 +89,7 @@ export default function TicTacToe() {
             </div>
           ))}
         </div>
-        <Footer/>
+        {/*<Footer/>*/}
       </section>
     </div>
   )

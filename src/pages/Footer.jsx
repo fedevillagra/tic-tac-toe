@@ -1,3 +1,4 @@
+// no está activado el footer, en caso de activarlo hay que descomentar la linea del footer de TicTacToe.jsx
 import React from 'react';
 
 const name_profile = "Federico Villagra";
