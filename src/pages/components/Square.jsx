@@ -48,6 +48,7 @@ const Square = (props) => {
   const handleTouchStart = (e) => {
     setTouching(true);
     setTouchData({ value: props.value, fromIndex: props.i });
+    props.setIsDragging(true); // Inicia el estado de arrastre global
   };
 
   const handleTouchMove = (e) => {
@@ -56,6 +57,7 @@ const Square = (props) => {
 
   const handleTouchEnd = (e) => {
     setTouching(false);
+    props.setIsDragging(false); // Finaliza el estado de arrastre global
 
     const touch = e.changedTouches[0];
     const element = document.elementFromPoint(touch.clientX, touch.clientY);
